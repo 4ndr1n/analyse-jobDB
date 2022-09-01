@@ -33,8 +33,10 @@ def getData(Kantone):
 
 def cleanData(df,Kantone):
 
-    for x in Kantone:
-        df[x+'nr'] = df[x].str.extract(r'(\d+_\d+)')
+    for i,x in enumerate(Kantone):
+        uneven = i*2-1
+        print(uneven)
+        df.insert(uneven,x+'nr',df[x].str.extract(r'(\d+_\d+)'))
         df[x] = df[x].map(lambda x: str(x)[15:])
 
     df.to_csv("/Users/Andrin/Desktop/Output.csv")
