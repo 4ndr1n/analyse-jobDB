@@ -5,7 +5,7 @@ def getFile(x):
 
     return file
 
-def getData(Kantone):
+def getData(Kanton):
     Kantone = ["AG","LU","SH","VD","ZV","ZG","ZH"]
     df = pd.DataFrame()
     length = []
@@ -33,14 +33,17 @@ def getData(Kantone):
 
 def cleanData(df,Kantone):
 
-    for i,x in enumerate(Kantone):
-        uneven = i*2-1
-        print(uneven)
-        df.insert(uneven,x+'nr',df[x].str.extract(r'(\d+_\d+)'))
+    for x in Kantone:
+        df[x+'nr'] = df[x].str.extract(r'(\d+_\d+)')
         df[x] = df[x].map(lambda x: str(x)[15:])
 
+    df.reindex(['AGnr','AG','LUnr','SHnr','SH','VDnr','VD','ZVnr','ZV','ZGnr','ZG','ZHnr','ZH'], axis=1)
+
     df.to_csv("/Users/Andrin/Desktop/Output.csv")
+
+
     return df
+
 
 def main():
     Kantone = ["AG","LU","SH","VD","ZV","ZG","ZH"]
