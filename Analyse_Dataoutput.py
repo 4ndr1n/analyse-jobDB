@@ -5,7 +5,7 @@ def getFile(x):
 
     return file
 
-def getData():
+def getData(Kantone):
     Kantone = ["AG","LU","SH","VD","ZV","ZG","ZH"]
     df = pd.DataFrame()
     length = []
@@ -29,15 +29,21 @@ def getData():
     for index,x in enumerate(Kantone):
         df[x] = holder[index]
 
+    return df
+
+def cleanData(df,Kantone):
+
+    for x in Kantone:
+        df[x+'nr'] = df[x].str.extract(r'(\d+_\d+)')
+        df[x] = df[x].map(lambda x: str(x)[15:])
+
     df.to_csv("/Users/Andrin/Desktop/Output.csv")
     return df
 
-def cleanData(df):
-
-    df['result'] = df['result'].map(lambda x: x.lstrip('').rstrip('aAbBcC'))
-
 def main():
-    getData()
+    Kantone = ["AG","LU","SH","VD","ZV","ZG","ZH"]
+    Data = getData(Kantone)
+    CD = cleanData(Data,Kantone)
 
 
 if __name__ == "__main__":
