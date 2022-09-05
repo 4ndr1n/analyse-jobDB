@@ -71,22 +71,19 @@ class make:
             nr = df[x]
             x1,x2 = get.TwoVals(x1,x2,nr[1])
             for y in nr:
+                
                 x1,x2 = get.TwoVals(x1,x2,y)
                 dif = x2-x1
+                
                 while dif > 1:
-                    numbers.append(x1)
                     x1 += 1
+                    numbers.append(x1)
                     dif = x2-x1
 
         return numbers
                 
                     
                     
-
-
-
-
-
 def main():
     Kantone = ["AG","LU","SH","VD","ZV","ZG","ZH"]
     Data = get.Data(Kantone)
