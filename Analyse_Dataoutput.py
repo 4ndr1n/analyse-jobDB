@@ -79,6 +79,7 @@ class make:
                     x1 += 1
                     numbers.append(x1)
                     dif = x2-x1
+                print(y,x1)
 
         return numbers
                 
