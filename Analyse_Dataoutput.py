@@ -87,6 +87,14 @@ class make:
             if count.get(x) >= 6:
                 lines_list.append(x)
         return lines_list
+
+    def equals(CD):
+        equals = []
+
+        
+
+
+        return equals
                                   
 def main():
     Kantone = ["AG","LU","SH","VD","ZV","ZG","ZH"]
@@ -94,6 +102,7 @@ def main():
     CD = make.CleanData(Data,Kantone)
     gap = make.space(CD)
     lines = make.lines(gap)
+    equals = make.equals(CD)
     print(lines)
 
 if __name__ == "__main__":
