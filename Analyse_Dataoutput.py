@@ -8,12 +8,11 @@ class get:
         return file
 
     def Data(Kanton):
-        Kantone = ["AG","LU","SH","VD","ZV","ZG","ZH"]
         df = pd.DataFrame()
         length = []
         holder = []
 
-        for x in Kantone:
+        for x in Kanton:
             file = open(get.File(x))
             t = file.readlines()
             holder.append(t)
@@ -28,7 +27,7 @@ class get:
                 t = len(x)
                 x.extend([0]*((maxim)-t))
 
-        for index,x in enumerate(Kantone):
+        for index,x in enumerate(Kanton):
             df[x] = holder[index]
 
         return df
@@ -71,7 +70,6 @@ class make:
             nr = df[x]
             x1,x2 = get.TwoVals(x1,x2,nr[1])
             for y in nr:
-                
                 x1,x2 = get.TwoVals(x1,x2,y)
                 dif = x2-x1
                 x1r = x1
