@@ -50,14 +50,12 @@ class make:
             df[x] = df[x].map(lambda x: str(x)[15:])
             df[x] = df[x].str.replace(r'(\s[A-Z]{2}-)', '')
             
-        df = df[['AGnr','AG','LUnr','LU','SHnr','SH','VDnr','VD','ZVnr','ZV','ZGnr','ZG','ZHnr','ZH']]
+        df = df[['AGnr','AG','LUnr','LU','SHnr','SH','VDnr','VD','ZVnr','ZV','ZHnr','ZH','ZGnr','ZG']]
 
         df = df.drop([0])
 
         for x in Kantone:
             df[x+"nr"] = pd.to_numeric(df[x+"nr"])
-
-        
 
         df.to_csv("/Users/Andrin/Desktop/Output.csv")
 
