@@ -1,4 +1,4 @@
-from numpy import number
+from collections import Counter
 import pandas as pd
 
 class get:
@@ -74,23 +74,29 @@ class make:
                 
                 x1,x2 = get.TwoVals(x1,x2,y)
                 dif = x2-x1
-                
-                while dif > 1:
-                    x1 += 1
-                    numbers.append(x1)
-                    dif = x2-x1
-                print(y,x1)
-
+                x1r = x1
+                while dif > 1:    
+                    x1r += 1
+                    numbers.append(x1r)
+                    dif = x2-x1r
         return numbers
-                
-                    
-                    
+
+    def lines(gap):
+        lines_list = []
+        count = Counter(gap)
+        
+        for x in count:
+            if count.get(x) >= 6:
+                lines_list.append(x)
+        return lines_list
+                                  
 def main():
     Kantone = ["AG","LU","SH","VD","ZV","ZG","ZH"]
     Data = get.Data(Kantone)
     CD = make.CleanData(Data,Kantone)
     gap = make.space(CD)
-    print(gap)
+    lines = make.lines(gap)
+    print(lines)
 
 if __name__ == "__main__":
-    main()
+    main() 
