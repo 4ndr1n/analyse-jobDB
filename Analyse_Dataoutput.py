@@ -80,9 +80,40 @@ class make:
                     dif = x2-x1r
         return numbers
 
+    def space2(df):
+        x1 = 0
+        x2 = 0
+        numbers = []
+    
+        nrCol = df[df.columns[::2]]
+        for x in nrCol:
+            nr = df[x]
+            x1,x2 = get.TwoVals(x1,x2,nr[1])
+            for y in nr:
+                x1,x2 = get.TwoVals(x1,x2,y)
+                dif = x2-x1
+                x1r = x1
+                while dif > 1:    
+                    x1r += 1
+                    numbers.append(y)
+                    dif = x2-x1r
+        return numbers
+
+
     def lines(gap):
         lines_list = []
         count = Counter(gap)
+        
+        for x in count:
+            if count.get(x) >= 6:
+                lines_list.append(x)
+        return lines_list
+
+
+    def lines2(gap):
+        lines_list = []
+        count = Counter(gap)
+        print(count)
         
         for x in count:
             if count.get(x) >= 6:
@@ -101,9 +132,9 @@ def main():
     Kantone = ["AG","LU","SH","VD","ZV","ZG","ZH"]
     Data = get.Data(Kantone)
     CD = make.CleanData(Data,Kantone)
-    gap = make.space(CD)
-    lines = make.lines(gap)
-    equals = make.equals(CD)
+    gap = make.space2(CD)
+    lines = make.lines2(gap)
+    #equals = make.equals(CD)
     print(lines)
 
 if __name__ == "__main__":
