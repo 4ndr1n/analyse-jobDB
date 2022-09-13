@@ -90,12 +90,14 @@ class make:
                 lines_list.append(x)
         return lines_list
 
-    def space2(df):
+    def space2(df,Kanton):
         x1 = 0
         x2 = 0
         numbers = []
+        dff = pd.DataFrame()
     
         nrCol = df[df.columns[::2]]
+        nCol = df[df.columns[1::2]]
         for x in nrCol:
             nr = df[x]
             x1,x2 = get.TwoVals(x1,x2,nr[1])
@@ -103,6 +105,10 @@ class make:
                 x1,x2 = get.TwoVals(x1,x2,y)
                 dif = x2-x1
                 x1r = x1
+                if dif == 1:
+                    print("hi")
+
+
                 while dif > 1:    
                     x1r += 1
                     numbers.append(y)
@@ -129,7 +135,7 @@ def main():
     Data = get.Data(Kantone)
     CD = make.CleanData(Data,Kantone)
     gap = make.space2(CD)
-    lines = make.lines2(gap)
+    lines = make.lines2(gap,Kantone)
     #equals = make.equals(CD)
     print(lines)
 
