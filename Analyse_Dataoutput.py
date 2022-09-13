@@ -1,5 +1,6 @@
 from collections import Counter
 import pandas as pd
+from pyparsing import Regex
 
 class get:
     def File(x):
@@ -48,7 +49,7 @@ class make:
             t =  1
             df[x+'nr'] = df[x].str.extract(r'(\d+)')
             df[x] = df[x].map(lambda x: str(x)[15:])
-            df[x] = df[x].str.replace(r'(\s[A-Z]{2}-)', '')
+            df[x] = df[x].str.replace(r'(\s[A-Z]{2}-)', '',regex=True)
             
         df = df[['AGnr','AG','LUnr','LU','SHnr','SH','VDnr','VD','ZVnr','ZV','ZHnr','ZH','ZGnr','ZG']]
 
@@ -80,6 +81,15 @@ class make:
                     dif = x2-x1r
         return numbers
 
+    def lines(gap):
+        lines_list = []
+        count = Counter(gap)
+        
+        for x in count:
+            if count.get(x) >= 6:
+                lines_list.append(x)
+        return lines_list
+
     def space2(df):
         x1 = 0
         x2 = 0
@@ -99,17 +109,6 @@ class make:
                     dif = x2-x1r
         return numbers
 
-
-    def lines(gap):
-        lines_list = []
-        count = Counter(gap)
-        
-        for x in count:
-            if count.get(x) >= 6:
-                lines_list.append(x)
-        return lines_list
-
-
     def lines2(gap):
         lines_list = []
         count = Counter(gap)
@@ -122,10 +121,7 @@ class make:
 
     def equals(CD):
         equals = []
-
-
-
-
+        
         return equals
                                   
 def main():
