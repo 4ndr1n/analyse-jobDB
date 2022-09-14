@@ -90,30 +90,54 @@ class make:
                 lines_list.append(x)
         return lines_list
 
-    def space2(df,Kanton):
+    def space2(df):
         x1 = 0
         x2 = 0
         numbers = []
         dff = pd.DataFrame()
-    
         nrCol = df[df.columns[::2]]
         nCol = df[df.columns[1::2]]
-        for x in nrCol:
-            nr = df[x]
-            x1,x2 = get.TwoVals(x1,x2,nr[1])
-            for y in nr:
-                x1,x2 = get.TwoVals(x1,x2,y)
+        i = 0
+        ColumnIndex=0
+        for col in nrCol:
+            AbsoluteLine=0
+            relativeLine=0
+            ColumnNumber = df[col]
+            x1,x2 = get.TwoVals(x1,x2,ColumnNumber[1])
+            for num in ColumnNumber:
+                x1,x2 = get.TwoVals(x1,x2,num)
                 dif = x2-x1
+
                 x1r = x1
+
                 if dif == 1:
-                    print("hi")
-
-
+                    NameValue = nCol[df.columns[ColumnIndex+1]][relativeLine+1]
+                    dff.at[AbsoluteLine,df.columns[ColumnIndex+1]] = NameValue
+                    dff.at[AbsoluteLine,df.columns[ColumnIndex]] = x1r
+                    AbsoluteLine+=1
+                    
                 while dif > 1:    
+                    dff.at[AbsoluteLine,df.columns[ColumnIndex]] = x1r
                     x1r += 1
-                    numbers.append(y)
                     dif = x2-x1r
+                    AbsoluteLine+=1
+
+                
+                relativeLine+=1
+
+            if i < 12:
+                i+=1
+                ColumnIndex+=2
+                    
+        dff.to_csv("/Users/Andrin/Desktop/Output_2.csv")
         return numbers
+
+    def dummy(df): 
+        nrCol = df[df.columns[::2]]
+        for col in nrCol:
+            nr = df[col]
+            print(df.columns[0])
+
 
     def lines2(gap):
         lines_list = []
@@ -134,17 +158,11 @@ def main():
     Kantone = ["AG","LU","SH","VD","ZV","ZG","ZH"]
     Data = get.Data(Kantone)
     CD = make.CleanData(Data,Kantone)
+    #make.dummy(CD)
     gap = make.space2(CD)
-    lines = make.lines2(gap,Kantone)
+    #lines = make.lines2(gap)
     #equals = make.equals(CD)
-    print(lines)
-
-
-
-
-
-
-
+    #print(lines)
 
 
 
