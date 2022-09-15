@@ -107,7 +107,7 @@ class make:
             for num in ColumnNumber:
                 x1,x2 = get.TwoVals(x1,x2,num)
                 dif = x2-x1
-
+                
                 x1r = x1
 
                 if dif == 1:
@@ -115,6 +115,7 @@ class make:
                     dff.at[AbsoluteLine,df.columns[ColumnIndex+1]] = NameValue
                     dff.at[AbsoluteLine,df.columns[ColumnIndex]] = x1r
                     AbsoluteLine+=1
+
                     
                 while dif > 1:    
                     dff.at[AbsoluteLine,df.columns[ColumnIndex]] = x1r
@@ -124,6 +125,7 @@ class make:
 
                 
                 relativeLine+=1
+
 
             if i < 12:
                 i+=1
