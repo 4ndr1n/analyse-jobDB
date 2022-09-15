@@ -90,13 +90,17 @@ class make:
             if count.get(x) >= 6:
                 lines_list.append(x)
         return lines_list
-
+            
+            
+            
+            
     def space2(df):
 
         numbers = []
         ndf = pd.DataFrame()
         nrCol = df[df.columns[::2]]
         nCol = df[df.columns[1::2]]
+        nrColIndex = 0
         i = 0
         nrColIndex=0
         
