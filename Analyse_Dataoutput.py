@@ -95,14 +95,6 @@ class make:
         nrColIndex = 0
         nrColIndex=0
         
-        maxnum = int(df.max(numeric_only=True).max())
-
-        df2 = pd.DataFrame([[maxnum,"",maxnum,"",maxnum,"",maxnum,"",maxnum,"",maxnum,"",maxnum,""]],columns=['AGnr','AG','LUnr','LU','SHnr','SH','VDnr','VD','ZVnr','ZV','ZHnr','ZH','ZGnr','ZG'])
-
-        df = pd.concat([df,df2])
-
-        print(df)
-        
         for column in nrCol:
             x1 = 0
             x2 = 0
@@ -152,7 +144,7 @@ class make:
 
                 if x2 == length:
                     ndf.at[outputLine,df.columns[nrColIndex]] = x2
-                    NameValue = nCol[df.columns[nrColIndex+1]][sourceLine]
+                    NameValue = nCol[df.columns[nrColIndex+1]][sourceLine-1]
                     ndf.at[outputLine,df.columns[nrColIndex+1]] = NameValue
                     sourceLine+=1
 
@@ -166,7 +158,7 @@ def main():
     Kantone = ["AG","LU","SH","VD","ZV","ZG","ZH"]
     Data = get.Data(Kantone)
     CD = make.CleanData(Data,Kantone)
-    gap = make.space2(CD)
+    make.space2(CD)
 
 if __name__ == "__main__":
     main() 
