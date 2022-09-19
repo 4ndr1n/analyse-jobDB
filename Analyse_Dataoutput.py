@@ -1,7 +1,5 @@
 from collections import Counter
-from difflib import ndiff
 import pandas as pd
-from pyparsing import Regex
 
 class get:
     def File(x):
@@ -51,15 +49,13 @@ class make:
             df[x+'nr'] = df[x].str.extract(r'(\d+)')
             df[x] = df[x].map(lambda x: str(x)[15:])
             df[x] = df[x].str.replace(r'(\s[A-Z]{2}-)', '',regex=True)
-            
+
         df = df[['AGnr','AG','LUnr','LU','SHnr','SH','VDnr','VD','ZVnr','ZV','ZHnr','ZH','ZGnr','ZG']]
 
         df = df.drop([0])
 
         for x in Kantone:
             df[x+"nr"] = pd.to_numeric(df[x+"nr"])
-
-        df.to_csv("/Users/Andrin/Desktop/Output.csv")
 
         return df
 
@@ -91,18 +87,21 @@ class make:
                 lines_list.append(x)
         return lines_list
             
-            
-            
-            
     def space2(df):
-
         numbers = []
         ndf = pd.DataFrame()
         nrCol = df[df.columns[::2]]
         nCol = df[df.columns[1::2]]
         nrColIndex = 0
-        i = 0
         nrColIndex=0
+        
+        maxnum = int(df.max(numeric_only=True).max())
+
+        df2 = pd.DataFrame([[maxnum,"",maxnum,"",maxnum,"",maxnum,"",maxnum,"",maxnum,"",maxnum,""]],columns=['AGnr','AG','LUnr','LU','SHnr','SH','VDnr','VD','ZVnr','ZV','ZHnr','ZH','ZGnr','ZG'])
+
+        df = pd.concat([df,df2])
+
+        print(df)
         
         for column in nrCol:
             x1 = 0
@@ -115,6 +114,7 @@ class make:
 
             if ColumnNumber[1] != 1001:
                 x1=1001
+            first = True
             for num in ColumnNumber:
                 x1,x2 = get.TwoVals(x1,x2,num)
                 dif = x2-x1
@@ -125,6 +125,10 @@ class make:
                 while dif > 1:
                     if x1 == x1cp:
                         NameValue = nCol[df.columns[nrColIndex+1]][sourceLine]
+                        if ColumnNumber[1] != 1001 and first == True:
+                            NameValue = ""
+                            first = False
+                            sourceLine-=1    
                         ndf.at[outputLine,df.columns[nrColIndex+1]] = NameValue
                         sourceLine+=1
 
@@ -155,24 +159,14 @@ class make:
                 
             nrColIndex+=2
         ndf = ndf[['AGnr','AG','LUnr','LU','SHnr','SH','VDnr','VD','ZVnr','ZV','ZHnr','ZH','ZGnr','ZG']]
-        ndf.to_csv("/Users/Andrin/Desktop/Output_2.csv")
+        ndf.to_csv("/Users/Andrin/Desktop/Output_2.csv",sep=";")
         return numbers
 
-    def dummy(df): 
-        nrCol = df[df.columns[::2]]
-        for col in nrCol:
-            nr = df[col]
-            print(df.columns[0])
-
-
-     
 def main():
     Kantone = ["AG","LU","SH","VD","ZV","ZG","ZH"]
     Data = get.Data(Kantone)
     CD = make.CleanData(Data,Kantone)
     gap = make.space2(CD)
 
-
 if __name__ == "__main__":
     main() 
-
