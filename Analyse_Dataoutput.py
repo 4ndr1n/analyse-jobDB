@@ -59,6 +59,7 @@ class make:
 
         return df
 
+# Wird nicht verwendet, gibt nur die leeren Zeilennummern aus.
     def space(df):
         x1 = 0
         x2 = 0
@@ -86,14 +87,14 @@ class make:
             if count.get(x) >= 6:
                 lines_list.append(x)
         return lines_list
-            
-    def space2(df):
+ 
+    def spaces(df):
         numbers = []
         ndf = pd.DataFrame()
         nrCol = df[df.columns[::2]]
         nCol = df[df.columns[1::2]]
         nrColIndex = 0
-        nrColIndex=0
+
         
         for column in nrCol:
             x1 = 0
@@ -158,7 +159,7 @@ def main():
     Kantone = ["AG","LU","SH","VD","ZV","ZG","ZH"]
     Data = get.Data(Kantone)
     CD = make.CleanData(Data,Kantone)
-    make.space2(CD)
+    make.spaces(CD)
 
 if __name__ == "__main__":
     main() 
