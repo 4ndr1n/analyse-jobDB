@@ -152,7 +152,7 @@ class make:
                 
             nrColIndex+=2
         ndf = ndf[['AGnr','AG','LUnr','LU','SHnr','SH','VDnr','VD','ZVnr','ZV','ZHnr','ZH','ZGnr','ZG']]
-        ndf.to_csv("/Users/Andrin/Desktop/Output_2.csv",sep=";")
+        ndf.to_csv("/Users/Andrin/Desktop/Output.csv",sep=";")
         return numbers
 
 def main():
