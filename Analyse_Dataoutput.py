@@ -3,7 +3,7 @@ import pandas as pd
 
 class get:
     def File(x):
-        file = "/Users/Andrin/Desktop/OpCon_data/" + x + ".csv"
+        file = "\C:\\" + x + ".csv"
 
         return file
 
@@ -152,7 +152,7 @@ class make:
                 
             nrColIndex+=2
         ndf = ndf[['AGnr','AG','LUnr','LU','SHnr','SH','VDnr','VD','ZVnr','ZV','ZHnr','ZH','ZGnr','ZG']]
-        ndf.to_csv("/Users/Andrin/Desktop/Output.csv",sep=";")
+        ndf.to_csv("\C:\output.csv\\",sep=";")
         return numbers
 
 def main():
