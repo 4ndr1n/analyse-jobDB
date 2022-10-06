@@ -58,35 +58,6 @@ class make:
             df[x+"nr"] = pd.to_numeric(df[x+"nr"])
 
         return df
-
-# Wird nicht verwendet, gibt nur die leeren Zeilennummern aus.
-    def space(df):
-        x1 = 0
-        x2 = 0
-        numbers = []
-    
-        nrCol = df[df.columns[::2]]
-        for x in nrCol:
-            nr = df[x]
-            x1,x2 = get.TwoVals(x1,x2,nr[1])
-            for y in nr:
-                x1,x2 = get.TwoVals(x1,x2,y)
-                dif = x2-x1
-                x1r = x1
-                while dif > 1:    
-                    x1r += 1
-                    numbers.append(x1r)
-                    dif = x2-x1r
-        return numbers
-
-    def lines(gap):
-        lines_list = []
-        count = Counter(gap)
-        
-        for x in count:
-            if count.get(x) >= 6:
-                lines_list.append(x)
-        return lines_list
  
 
     def spaces(df):
