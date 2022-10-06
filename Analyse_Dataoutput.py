@@ -1,3 +1,4 @@
+from cmath import nan
 from collections import Counter
 import pandas as pd
 
@@ -66,6 +67,8 @@ class make:
         nrCol = df[df.columns[::2]]
         nCol = df[df.columns[1::2]]
         nrColIndex = 0
+        errorArray = pd.DataFrame(data = {'num': [nan,nan],'name': [nan,nan],'error':[nan,nan]})
+        go = False
 
         
         for column in nrCol:
@@ -75,12 +78,44 @@ class make:
             sourceLine=1
             ColumnNumber = df[column]
             x1,x2 = get.TwoVals(x1,x2,ColumnNumber[1])
+            length = max(df[column])
 
             if ColumnNumber[1] != 1001:
                 x1=1001
             first = True
+            for i,num in enumerate(ColumnNumber): 
+                
+                if pd.isnull(errorArray.loc[i,'num']):
+                    errorArray.at[i,'num'] = num
+                    errorArray.at[i,'name'] =nCol[df.columns[nrColIndex+1]][sourceLine]
+                    
+                    newDF = pd.DataFrame({'num': [nan],'name': [nan],'error':[nan]})
+                    errorArray = pd.concat([errorArray,newDF],ignore_index=True)
 
-            for num in ColumnNumber:
+                elif errorArray.loc[i,'num'] != num:
+                    cpi = 0
+                    i = cpi
+                    while errorArray.loc[cpi,'num'] != num:
+                        cpi += 1
+                    newDF = pd.DataFrame({'num': [nan],'name': [nan],'error':[nan]})
+                    errorArray = pd.concat([errorArray,newDF],ignore_index=True)
+                    errorArray.at[cpi,'num'] = num
+                    errorArray.at[cpi,'name'] =nCol[df.columns[nrColIndex+1]][sourceLine]
+
+                    newDF = pd.DataFrame({'num': [nan],'name': [nan],'error':[nan]})
+                    errorArray = pd.concat([errorArray,newDF],ignore_index=True)
+                    
+                elif errorArray.loc[i,'name'] != nCol[df.columns[nrColIndex+1]][sourceLine] and errorArray.loc[i,'num'] == num:
+                    errorArray.at[i,'error'] =nCol[df.columns[nrColIndex+1]][sourceLine]
+                
+
+                else:
+                    errorArray.at[i,'error']=nCol[df.columns[nrColIndex+1]][sourceLine]
+
+
+
+
+
                 x1,x2 = get.TwoVals(x1,x2,num)
                 dif = x2-x1
                 
@@ -124,11 +159,12 @@ class make:
                     NameValue = nCol[df.columns[nrColIndex+1]][sourceLine-1]
                     ndf.at[outputLine,df.columns[nrColIndex+1]] = NameValue
                     sourceLine+=1
-
                 
+                go = True
             nrColIndex+=2
         ndf = ndf[['AGnr','AG','LUnr','LU','SHnr','SH','VDnr','VD','ZVnr','ZV','ZHnr','ZH','ZGnr','ZG']]
-        ndf.to_csv("/Users/Andrin/Desktop",sep=";")
+        ndf.to_csv("/Users/Andrin/Desktop/Output.csv",sep=";")
+        errorArray.to_csv("/Users/Andrin/Desktop/error.csv",sep=";")
         return numbers
 
 def main():
