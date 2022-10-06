@@ -3,7 +3,7 @@ import pandas as pd
 
 class get:
     def File(x):
-        file = "\C:\\" + x + ".csv"
+        file = "/Users/Andrin/Desktop/OpCon_data/" + x + ".csv"
 
         return file
 
@@ -88,6 +88,7 @@ class make:
                 lines_list.append(x)
         return lines_list
  
+
     def spaces(df):
         numbers = []
         ndf = pd.DataFrame()
@@ -103,11 +104,11 @@ class make:
             sourceLine=1
             ColumnNumber = df[column]
             x1,x2 = get.TwoVals(x1,x2,ColumnNumber[1])
-            length = max(df[column])
 
             if ColumnNumber[1] != 1001:
                 x1=1001
             first = True
+
             for num in ColumnNumber:
                 x1,x2 = get.TwoVals(x1,x2,num)
                 dif = x2-x1
@@ -116,6 +117,7 @@ class make:
 
                 loopdie = False
                 while dif > 1:
+
                     if x1 == x1cp:
                         NameValue = nCol[df.columns[nrColIndex+1]][sourceLine]
                         if ColumnNumber[1] != 1001 and first == True:
@@ -132,11 +134,13 @@ class make:
                     loopdie = True
                 
                 if loopdie == True:
+
                     ndf.at[outputLine,df.columns[nrColIndex]] = x1cp
                     outputLine+=1
             
 
                 if dif == 1 and loopdie == False:
+                    
                     ndf.at[outputLine,df.columns[nrColIndex]] = x1cp
                     NameValue = nCol[df.columns[nrColIndex+1]][sourceLine]
                     ndf.at[outputLine,df.columns[nrColIndex+1]] = NameValue
@@ -144,6 +148,7 @@ class make:
                     sourceLine+=1
 
                 if x2 == length:
+
                     ndf.at[outputLine,df.columns[nrColIndex]] = x2
                     NameValue = nCol[df.columns[nrColIndex+1]][sourceLine-1]
                     ndf.at[outputLine,df.columns[nrColIndex+1]] = NameValue
@@ -152,7 +157,7 @@ class make:
                 
             nrColIndex+=2
         ndf = ndf[['AGnr','AG','LUnr','LU','SHnr','SH','VDnr','VD','ZVnr','ZV','ZHnr','ZH','ZGnr','ZG']]
-        ndf.to_csv("\C:\output.csv\\",sep=";")
+        ndf.to_csv("/Users/Andrin/Desktop",sep=";")
         return numbers
 
 def main():
