@@ -1,6 +1,7 @@
 from cmath import nan
 from collections import Counter
 import pandas as pd
+import numpy as np
 
 class get:
     def File(x):
@@ -51,7 +52,10 @@ class make:
             df[x] = df[x].map(lambda x: str(x)[15:])
             df[x] = df[x].str.replace(r'(\s[A-Z]{2}-)', '',regex=True)
 
-        df = df[['AGnr','AG','LUnr','LU','SHnr','SH','VDnr','VD','ZVnr','ZV','ZHnr','ZH','ZGnr','ZG']]
+        df['indx'] = np.nan
+        print(df)
+
+        df = df[['AGnr','AG','LUnr','LU','SHnr','SH','VDnr','VD','ZVnr','ZV','ZHnr','ZH','ZGnr','ZG','indx']]
 
         df = df.drop([0])
 
@@ -79,12 +83,11 @@ class make:
             ColumnNumber = df[column]
             x1,x2 = get.TwoVals(x1,x2,ColumnNumber[1])
             length = max(df[column])
-
             if ColumnNumber[1] != 1001:
                 x1=1001
             first = True
             for i,num in enumerate(ColumnNumber): 
-                
+                """
                 if pd.isnull(errorArray.loc[i,'num']):
                     errorArray.at[i,'num'] = num
                     errorArray.at[i,'name'] =nCol[df.columns[nrColIndex+1]][sourceLine]
@@ -95,26 +98,17 @@ class make:
                 elif errorArray.loc[i,'num'] != num:
                     cpi = 0
                     i = cpi
-                    while errorArray.loc[cpi,'num'] != num:
+                    while errorArray.loc[cpi,'num'] != num and num+ errorArray.loc[cpi,'num']- 1 == num + errorArray.loc[cpi,'num']-1:
+                        print(errorArray.loc[cpi,'num'],num)
                         cpi += 1
                     newDF = pd.DataFrame({'num': [nan],'name': [nan],'error':[nan]})
                     errorArray = pd.concat([errorArray,newDF],ignore_index=True)
                     errorArray.at[cpi,'num'] = num
                     errorArray.at[cpi,'name'] =nCol[df.columns[nrColIndex+1]][sourceLine]
 
-                    newDF = pd.DataFrame({'num': [nan],'name': [nan],'error':[nan]})
-                    errorArray = pd.concat([errorArray,newDF],ignore_index=True)
-                    
                 elif errorArray.loc[i,'name'] != nCol[df.columns[nrColIndex+1]][sourceLine] and errorArray.loc[i,'num'] == num:
                     errorArray.at[i,'error'] =nCol[df.columns[nrColIndex+1]][sourceLine]
-                
-
-                else:
-                    errorArray.at[i,'error']=nCol[df.columns[nrColIndex+1]][sourceLine]
-
-
-
-
+                """
 
                 x1,x2 = get.TwoVals(x1,x2,num)
                 dif = x2-x1
@@ -131,6 +125,7 @@ class make:
                             first = False
                             sourceLine-=1    
                         ndf.at[outputLine,df.columns[nrColIndex+1]] = NameValue
+                        ndf.at[outputLine,'index'] = NameValue
                         sourceLine+=1
 
                     ndf.at[outputLine,df.columns[nrColIndex]] = x1cp
@@ -150,6 +145,8 @@ class make:
                     ndf.at[outputLine,df.columns[nrColIndex]] = x1cp
                     NameValue = nCol[df.columns[nrColIndex+1]][sourceLine]
                     ndf.at[outputLine,df.columns[nrColIndex+1]] = NameValue
+                    if pd.isnull(ndf.loc[outputLine,'indx']):
+                        ndf.at[outputLine,'indx'] = NameValue
                     outputLine+=1
                     sourceLine+=1
 
@@ -158,11 +155,11 @@ class make:
                     ndf.at[outputLine,df.columns[nrColIndex]] = x2
                     NameValue = nCol[df.columns[nrColIndex+1]][sourceLine-1]
                     ndf.at[outputLine,df.columns[nrColIndex+1]] = NameValue
+                    ndf.at[outputLine,'index'] = NameValue
                     sourceLine+=1
                 
-                go = True
             nrColIndex+=2
-        ndf = ndf[['AGnr','AG','LUnr','LU','SHnr','SH','VDnr','VD','ZVnr','ZV','ZHnr','ZH','ZGnr','ZG']]
+        ndf = ndf[['index','AGnr','AG','LUnr','LU','SHnr','SH','VDnr','VD','ZVnr','ZV','ZHnr','ZH','ZGnr','ZG']]
         ndf.to_csv("/Users/Andrin/Desktop/Output.csv",sep=";")
         errorArray.to_csv("/Users/Andrin/Desktop/error.csv",sep=";")
         return numbers
