@@ -53,7 +53,6 @@ class make:
             df[x] = df[x].str.replace(r'(\s[A-Z]{2}-)', '',regex=True)
 
         df['indx'] = np.nan
-        print(df)
 
         df = df[['AGnr','AG','LUnr','LU','SHnr','SH','VDnr','VD','ZVnr','ZV','ZHnr','ZH','ZGnr','ZG','indx']]
 
@@ -99,7 +98,6 @@ class make:
                     cpi = 0
                     i = cpi
                     while errorArray.loc[cpi,'num'] != num and num+ errorArray.loc[cpi,'num']- 1 == num + errorArray.loc[cpi,'num']-1:
-                        print(errorArray.loc[cpi,'num'],num)
                         cpi += 1
                     newDF = pd.DataFrame({'num': [nan],'name': [nan],'error':[nan]})
                     errorArray = pd.concat([errorArray,newDF],ignore_index=True)
